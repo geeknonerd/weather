@@ -24,9 +24,23 @@ public class WeatherActivity extends Activity implements OnClickListener{
 	private TextView cityNameText;
 	private TextView publishText;
 	private TextView weatherDespText;
+	private TextView weatherDesp2Text;
+	private TextView weatherDesp3Text;
+	private TextView weatherDesp4Text;
+	private TextView weatherDesp5Text;
+	private TextView weatherDesp6Text;
 	private TextView temp1Text;
 	private TextView temp2Text;
+	private TextView temp3Text;
+	private TextView temp4Text;
+	private TextView temp5Text;
+	private TextView temp6Text;
 	private TextView currentDateText;
+	private TextView weatherD2Text;
+	private TextView weatherD3Text;
+	private TextView weatherD4Text;
+	private TextView weatherD5Text;
+	private TextView weatherD6Text;
 	private Button switchCity;
 	private Button refreshWeather;
 	
@@ -39,9 +53,23 @@ public class WeatherActivity extends Activity implements OnClickListener{
 		cityNameText = (TextView) findViewById(R.id.city_name);
 		publishText =(TextView) findViewById(R.id.publish_text);
 		weatherDespText = (TextView) findViewById(R.id.weather_desp);
+		weatherDesp2Text = (TextView) findViewById(R.id.weather_desp2);
+		weatherDesp3Text = (TextView) findViewById(R.id.weather_desp3);
+		weatherDesp4Text = (TextView) findViewById(R.id.weather_desp4);
+		weatherDesp5Text = (TextView) findViewById(R.id.weather_desp5);
+		weatherDesp6Text = (TextView) findViewById(R.id.weather_desp6);
 		temp1Text = (TextView) findViewById(R.id.temp1);
 		temp2Text = (TextView) findViewById(R.id.temp2);
+		temp3Text = (TextView) findViewById(R.id.temp3);
+		temp4Text = (TextView) findViewById(R.id.temp4);
+		temp5Text = (TextView) findViewById(R.id.temp5);
+		temp6Text = (TextView) findViewById(R.id.temp6);
 		currentDateText = (TextView) findViewById(R.id.current_date);
+		weatherD2Text = (TextView) findViewById(R.id.weather_d2);
+		weatherD3Text = (TextView) findViewById(R.id.weather_d3);
+		weatherD4Text = (TextView) findViewById(R.id.weather_d4);
+		weatherD5Text = (TextView) findViewById(R.id.weather_d5);
+		weatherD6Text = (TextView) findViewById(R.id.weather_d6);
 		switchCity = (Button) findViewById(R.id.switch_city);
 		refreshWeather = (Button) findViewById(R.id.refresh_weather);
 		String countyCode = getIntent().getStringExtra("county_code");
@@ -86,7 +114,7 @@ public class WeatherActivity extends Activity implements OnClickListener{
 	}
 
 	private void queryWeatherInfo(String weatherCode) {
-		String address = "http://www.weather.com.cn/data/cityinfo/"+weatherCode+".html";
+		String address = "http://api.k780.com:88/?app=weather.future&weaid="+weatherCode+"&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json";
 		queryFromServer(address, "weatherCode");
 	}
 	
@@ -129,9 +157,23 @@ public class WeatherActivity extends Activity implements OnClickListener{
 		cityNameText.setText(prefs.getString("city_name", ""));
 		temp1Text.setText(prefs.getString("temp1", ""));
 		temp2Text.setText(prefs.getString("temp2", ""));
+		temp3Text.setText(prefs.getString("temp3", ""));
+		temp4Text.setText(prefs.getString("temp4", ""));
+		temp5Text.setText(prefs.getString("temp5", ""));
+		temp6Text.setText(prefs.getString("temp6", ""));
 		weatherDespText.setText(prefs.getString("weather_desp", ""));
-		publishText.setText("今天"+prefs.getString("publish_time", "")+"发布");
-		currentDateText.setText(prefs.getString("current_date", ""));
+		weatherDesp2Text.setText(prefs.getString("weather_desp2", ""));
+		weatherDesp3Text.setText(prefs.getString("weather_desp3", ""));
+		weatherDesp4Text.setText(prefs.getString("weather_desp4", ""));
+		weatherDesp5Text.setText(prefs.getString("weather_desp5", ""));
+		weatherDesp6Text.setText(prefs.getString("weather_desp6", ""));
+		publishText.setText(prefs.getString("current_date", "")+"发布");
+		currentDateText.setText("今天");
+		weatherD2Text.setText("明天");
+		weatherD3Text.setText("后天");
+		weatherD4Text.setText(prefs.getString("weather_4", ""));
+        weatherD5Text.setText(prefs.getString("weather_5", ""));
+		weatherD6Text.setText(prefs.getString("weather_6", ""));
 		weatherInfoLayout.setVisibility(View.VISIBLE);
 		cityNameText.setVisibility(View.VISIBLE);
 		Intent intent = new Intent(this,AutoUpdateService.class);

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,14 +76,23 @@ public class Utility {
 	public static void handleWeatherResponse(Context context,String response){
 		try {
 			JSONObject jsonObject = new JSONObject(response);
-			JSONObject weatherInfo = jsonObject.getJSONObject("weatherinfo");
-			String cityName = weatherInfo.getString("city");
-			String weatherCode = weatherInfo.getString("cityid");
-			String temp1 = weatherInfo.getString("temp1");
-			String temp2 = weatherInfo.getString("temp2");
-			String weatherDesp = weatherInfo.getString("weather");
-			String publishTime = weatherInfo.getString("ptime");
-			saveWeatherInfo(context,cityName,weatherCode,temp1,temp2,weatherDesp,publishTime);
+			JSONArray weatherInfo = jsonObject.getJSONArray("result");
+			String cityName = weatherInfo.getJSONObject(0).getString("citynm");
+			String weatherCode = weatherInfo.getJSONObject(0).getString("cityid");
+			String temp1 = weatherInfo.getJSONObject(0).getString("temperature");
+			String temp2 = weatherInfo.getJSONObject(1).getString("temperature");
+			String temp3 = weatherInfo.getJSONObject(2).getString("temperature");
+			String temp4 = weatherInfo.getJSONObject(3).getString("temperature");
+			String temp5 = weatherInfo.getJSONObject(4).getString("temperature");
+			String temp6 = weatherInfo.getJSONObject(5).getString("temperature");
+			String weatherDesp = weatherInfo.getJSONObject(0).getString("weather");
+			String weatherDesp2 = weatherInfo.getJSONObject(1).getString("weather");
+			String weatherDesp3 = weatherInfo.getJSONObject(2).getString("weather");
+			String weatherDesp4 = weatherInfo.getJSONObject(3).getString("weather");
+			String weatherDesp5 = weatherInfo.getJSONObject(4).getString("weather");
+			String weatherDesp6 = weatherInfo.getJSONObject(5).getString("weather");
+			String publishTime = weatherInfo.getJSONObject(0).getString("days");
+			saveWeatherInfo(context,cityName,weatherCode,temp1,temp2,temp3,temp4,temp5,temp6,weatherDesp,weatherDesp2,weatherDesp3,weatherDesp4,weatherDesp5,weatherDesp6,publishTime);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -90,18 +100,39 @@ public class Utility {
 	}
 
 	private static void saveWeatherInfo(Context context, String cityName, String weatherCode, String temp1,
-			String temp2, String weatherDesp, String publishTime) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyƒÍM‘¬d»’",Locale.CHINA);
+			String temp2,String temp3,String temp4,String temp5,String temp6,String weatherDesp,String weatherDesp2,String weatherDesp3,String weatherDesp4,String weatherDesp5,String weatherDesp6, String publishTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("M/d",Locale.CHINA);
 		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 		editor.putBoolean("city_selected", true);
 		editor.putString("city_name", cityName);
 		editor.putString("weather_code", weatherCode);
 		editor.putString("temp1", temp1);
 		editor.putString("temp2", temp2);
+		editor.putString("temp3", temp3);
+		editor.putString("temp4", temp4);
+		editor.putString("temp5", temp5);
+		editor.putString("temp6", temp6);
 		editor.putString("weather_desp", weatherDesp);
+		editor.putString("weather_desp2", weatherDesp2);
+		editor.putString("weather_desp3", weatherDesp3);
+		editor.putString("weather_desp4", weatherDesp4);
+		editor.putString("weather_desp5", weatherDesp5);
+		editor.putString("weather_desp6", weatherDesp6);
 		editor.putString("publish_time", publishTime);
 		editor.putString("current_date", sdf.format(new Date()));
+		editor.putString("weather_2", sdf.format(nowDate(1)));
+		editor.putString("weather_3", sdf.format(nowDate(2)));
+		editor.putString("weather_4", sdf.format(nowDate(3)));
+		editor.putString("weather_5", sdf.format(nowDate(4)));
+		editor.putString("weather_6", sdf.format(nowDate(5)));
 		editor.commit();
+	}
+
+	private static Date nowDate(int day) {
+		Date date = new Date();
+		long time = date.getTime()+24*60*60*1000*day;
+		date = new Date(time);
+		return date;
 	}
 	
 	
