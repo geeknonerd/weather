@@ -1,14 +1,9 @@
 package com.coolweather.app.activity;
 
-import com.coolweather.app.R;
-import com.coolweather.app.service.AutoUpdateService;
-import com.coolweather.app.util.HttpCallbackListener;
-import com.coolweather.app.util.HttpUtil;
-import com.coolweather.app.util.Utility;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -16,13 +11,22 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.coolweather.app.R;
+import com.coolweather.app.service.AutoUpdateService;
+import com.coolweather.app.util.HttpCallbackListener;
+import com.coolweather.app.util.HttpUtil;
+import com.coolweather.app.util.ImageLoader;
+import com.coolweather.app.util.Utility;
 
 public class WeatherActivity extends Activity implements OnClickListener{
 	private LinearLayout weatherInfoLayout;
 	private TextView cityNameText;
 	private TextView publishText;
+	private ImageView weatherIcon;
 	private TextView weatherDespText;
 	private TextView weatherDesp2Text;
 	private TextView weatherDesp3Text;
@@ -52,6 +56,7 @@ public class WeatherActivity extends Activity implements OnClickListener{
 		weatherInfoLayout = (LinearLayout) findViewById(R.id.weather_info_layout);
 		cityNameText = (TextView) findViewById(R.id.city_name);
 		publishText =(TextView) findViewById(R.id.publish_text);
+		weatherIcon = (ImageView) findViewById(R.id.weather_icon);
 		weatherDespText = (TextView) findViewById(R.id.weather_desp);
 		weatherDesp2Text = (TextView) findViewById(R.id.weather_desp2);
 		weatherDesp3Text = (TextView) findViewById(R.id.weather_desp3);
@@ -155,6 +160,7 @@ public class WeatherActivity extends Activity implements OnClickListener{
 	private void showWeather(){
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		cityNameText.setText(prefs.getString("city_name", ""));
+		new ImageLoader().showImageByThread(weatherIcon,prefs.getString("weather_icon",""));
 		temp1Text.setText(prefs.getString("temp1", ""));
 		temp2Text.setText(prefs.getString("temp2", ""));
 		temp3Text.setText(prefs.getString("temp3", ""));
